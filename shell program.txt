@@ -1,0 +1,189 @@
+prg1.sh
+#!/bin/bash
+echo "Compare two numbers"
+read -p "Enter the first number:" num1
+read -p "Enter second number:" num2
+test $num1 -gt $num2
+res=$?
+echo "The result is $res"
+#End
+
+
+prg2.sh
+#!/bin/bash
+echo "Compare two numbers"
+read -p "Enter the first number:" num1
+read -p "Enter second number:" num2
+[ $num1 -gt $num2 ]
+res=$?
+echo "The result is $res"
+#End
+
+
+
+
+prg3.sh
+#!/bin/bash
+echo "Compare two numbers"
+read -p "Enter the first number:" num1
+read -p "Enter second number:" num2
+if [ $num1 -gt $num2 ]
+then
+   echo "$num1 is greater than $num2"
+fi #If ends here
+
+if [ $num1 -lt $num2 ]
+then
+   echo "$num1 is smaller than $num2"
+fi
+
+if [ $num1 -eq $num2 ]
+then
+  echo "Bothe the given numbers are equal"
+fi
+
+if [ $num1 -ne $num2 ]
+then
+  echo "Both the given numbers are not equal"
+fi
+
+#End of the script
+
+
+
+prg4.sh
+#!/bin/bash
+#check if the given user name exists in the system?
+read -p "Enter the user name:" user
+grep -w ^$user /etc/passwd >/dev/null 2>&1
+res=$?
+#if the exit status of grep is 0, that means it is succesfull search
+if [ $res -eq 0 ]
+then
+ echo "The user $user exists in the system"
+fi
+
+if [ $res -ne 0 ]
+then
+ echo "The user $user does'nt exist in the system"
+fi
+#End of the check
+
+
+prg5.sh
+#!/bin/bash
+#check if the given user name exists in the system?
+#Demonstrating if ... then ... else ... fi statement
+read -p "Enter the user name:" user
+grep -w ^$user /etc/passwd >/dev/null 2>&1
+res=$?
+#if the exit status of grep is 0, that means it is succesfull search
+if [ $res -eq 0 ]
+then
+ echo "The user $user exists in the system"
+else #if condition is false, then the else part is executed
+ echo "The user $user does'nt exist in the system"
+fi
+#End of the check
+
+
+
+prg6.sh
+#!/bin/bash
+#Lock the given user.
+read -p "Enter the username to lock:" user
+#check if the user exists in the system. If yes, then proceed to lock
+#using nested if's. An if condition inside if.
+grep -w ^$user /etc/passwd>/dev/null 2>&1
+res=$?
+if [ $res -eq 0 ]
+then
+ echo "Locking the user $user"
+ usermod -L $user>/dev/null 2>&1
+ if [ $? -eq 0 ]
+ then
+   echo "Locked successfully"
+ else
+   echo "Could not lock the user"
+ fi #inner if closed
+else
+ echo "User $user not found in the system"
+fi #out if closed
+
+
+
+prg7.sh
+#!/bin/bash
+#Check if the file exists in the system.
+#ls command would return false if file not found.
+echo "Enter the file name with absolute path"
+read fname
+ls $fname > /dev/null 2>&1
+res=$?
+if [ $res -eq 0 ]
+then
+   echo "The given  file $fname found"
+else
+   echo "The given  file $fname does'nt exists"
+fi
+
+
+
+prg8.sh
+
+#!/bin/bash
+#Check if the given user is locked?
+read -p "Enter the username:" user
+grep -w ^$user /etc/shadow >/dev/null 2>&1
+res=$?
+if [ $res -eq 0 ]
+then
+ echo "User found... Checking if $user locked.."
+ grep -w ^$user /etc/shadow | cut -f2 -d:| grep ^! >/dev/null 2>&1
+ res=$?
+ if [ $res -eq 0 ]
+ then
+  echo "User is locked"
+ else
+  echo "User $user is not locked..."
+ fi #inner if
+else
+ echo "user $user not found"
+fi #out if
+#End of the program
+
+
+prg9.sh
+
+#!/bin/bash
+#check if you are a root user
+if [ `id -u` -eq 0 ]
+then
+  echo "You are root user"
+else
+  echo "You are not root!!!"
+fi
+
+
+prg10.sh
+
+#!/bin/bash
+#Find greatest amonth three numbers
+read -p "Enter first number" num1
+read -p "Enter second number" num2
+read -p "Enter third number" num3
+
+#find biggest amonth three
+if [ $num1 -gt $num2 ] # if true, then num1 is bigger than num2
+then
+   if [ $num1 -gt $num3 ] #compare now with num3, if still num1 is bigger than num3 then num1 is big
+   then
+      echo "$num1 is bigger"
+   fi
+elif [ $num2 -gt $num3 ] #if num1 is not bigger, then compare num2 and num3 to find the bigger
+then
+   echo "$num2 is big"
+else
+   echo "$num3 is big"
+fi #end of main if
+
